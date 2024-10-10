@@ -1,7 +1,7 @@
 # Website
 # 3D Model Website
 
-Welcome to the **3D Model Website** where you can interact with 3D models directly in your browser. This project uses **Three.js** to load and display 3D models with mouse controls for rotation, zoom, and panning.
+Welcome to my **3D Model Website** where you can interact with a 3D model directly in your browser. This project uses **Three.js** to load and display 3D models with mouse controls for rotation, zoom, and panning.
 
 ## Features
 - Displays a 3D model loaded from a **GLB** file.
