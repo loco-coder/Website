@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My 3D Resume</title>
+    <style>
+      body {
+        margin: 0;
+        overflow: hidden;
+      }
+      canvas {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Here is where the 3D scene will go -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/GLTFLoader.js"></script>
+
+    <script>
+      // 1. Initialize Three.js
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+      const renderer = new THREE.WebGLRenderer();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      document.body.appendChild(renderer.domElement);
+
+      // 2. Add a light source (so the 3D model is well-lit)
+      const light = new THREE.DirectionalLight(0xffffff, 1);
+      light.position.set(1, 1, 1).normalize();
+      scene.add(light);
+
+      // 3. Load the GLB Model using GLTFLoader
+      const loader = new THREE.GLTFLoader();
+      loader.load(
+        'https://github.com/loco-coder/Website/blob/main/House_001_GLB.glb', // Replace with your correct URL
+        function(gltf) {
+          const model = gltf.scene;
+          scene.add(model);
+          model.position.set(0, -1, 0);  // Adjust position if needed
+          model.scale.set(1, 1, 1);  // Adjust scale if needed
+        },
+        undefined,
+        function(error) {
+          console.error('An error occurred while loading the model:', error);
+        }
+      );
+
+      // 4. Set camera position
+      camera.position.z = 5;
+
+      // 5. Animation loop
+      function animate() {
+        requestAnimationFrame(animate);
+        renderer.render(scene, camera);
+      }
+      animate();
+    </script>
+  </body>
+</html>
