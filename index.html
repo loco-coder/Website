@@ -50,7 +50,7 @@
 
           // Optional: Adjust the model's position and scale
           model.position.set(0, -1, 0);  // Move it down if necessary
-          model.scale.set(1, 1, 1);  // Adjust scale as needed
+          model.scale.set(0.5, 0.5, 0.5);  // Adjust scale as needed
         },
         undefined,
         function(error) {
@@ -67,7 +67,7 @@
 
         // Enable rotation on the model if you want continuous spinning
         if (scene.children[2]) {  // Assuming the model is the 3rd child in the scene
-          scene.children[2].rotation.y += 0.01;  // Rotate the model
+          scene.children[2].rotation.y += 0.005;  // Rotate the model
         }
 
         controls.update();  // Update the OrbitControls
