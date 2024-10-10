@@ -28,15 +28,19 @@
       document.body.appendChild(renderer.domElement);
 
       // 2. Add a light source (so the 3D model is well-lit)
-      const light = new THREE.DirectionalLight(0xffffff, 1);
-      light.position.set(1, 1, 1).normalize();
-      scene.add(light);
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.5); // Soft light for overall brightness
+      scene.add(ambientLight);
+
+      const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+      directionalLight.position.set(5, 5, 5);
+      scene.add(directionalLight);
 
       // 3. Load the GLB Model using GLTFLoader
       const loader = new THREE.GLTFLoader();
       loader.load(
-        'https://github.com/loco-coder/Website/blob/main/House_001_GLB.glb', // Replace with your correct URL
+        'https://your-username.github.io/repository-name/House_001_GLB.glb', // Replace with your correct URL
         function(gltf) {
+          console.log('Model loaded successfully!');
           const model = gltf.scene;
           scene.add(model);
           model.position.set(0, -1, 0);  // Adjust position if needed
@@ -49,7 +53,7 @@
       );
 
       // 4. Set camera position
-      camera.position.z = 5;
+      camera.position.set(0, 1, 5); // Adjust to focus on model
 
       // 5. Animation loop
       function animate() {
