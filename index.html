@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>My 3D Resume</title>
+    <title>Interactive 3D Model</title>
     <style>
       body {
         margin: 0;
@@ -15,51 +15,72 @@
     </style>
   </head>
   <body>
-    <!-- Here is where the 3D scene will go -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three/examples/js/controls/OrbitControls.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/GLTFLoader.js"></script>
 
     <script>
-      // 1. Initialize Three.js
+      // 1. Set up the scene, camera, and renderer
       const scene = new THREE.Scene();
       const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
       const renderer = new THREE.WebGLRenderer();
       renderer.setSize(window.innerWidth, window.innerHeight);
       document.body.appendChild(renderer.domElement);
 
-      // 2. Add a light source (so the 3D model is well-lit)
-      const ambientLight = new THREE.AmbientLight(0xffffff, 0.5); // Soft light for overall brightness
+      // 2. Add lighting to the scene
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
       scene.add(ambientLight);
-
       const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
       directionalLight.position.set(5, 5, 5);
       scene.add(directionalLight);
 
-      // 3. Load the GLB Model using GLTFLoader
+      // 3. OrbitControls for mouse interaction
+      const controls = new THREE.OrbitControls(camera, renderer.domElement);
+      controls.enableDamping = true;  // Adds smoothness to the interaction
+      controls.dampingFactor = 0.25;  // Adjust this for smoother/slower rotation
+      controls.enableZoom = true;     // Enable zooming
+
+      // 4. Load the GLB model
       const loader = new THREE.GLTFLoader();
-      loader.load('https://loco-coder.github.io/Website/House_001_GLB.glb',  // Correct URL to your GLB file
-  function(gltf) {
-    console.log('Model loaded successfully!');
-    const model = gltf.scene;
-    scene.add(model);
-    model.position.set(0, -1, 0);  // Adjust position if needed
-    model.scale.set(1, 1, 1);  // Adjust scale if needed
-  },
-  undefined,
-  function(error) {
-    console.error('An error occurred while loading the model:', error);
-  }
-);
+      loader.load(
+        'https://loco-coder.github.io/Website/House_001_GLB.glb',  // Correct URL for GLB model
+        function(gltf) {
+          const model = gltf.scene;
+          scene.add(model);
 
-      // 4. Set camera position
-      camera.position.set(0, 1, 5); // Adjust to focus on model
+          // Optional: Adjust the model's position and scale
+          model.position.set(0, -1, 0);  // Move it down if necessary
+          model.scale.set(1, 1, 1);  // Adjust scale as needed
+        },
+        undefined,
+        function(error) {
+          console.error('An error occurred while loading the model:', error);
+        }
+      );
 
-      // 5. Animation loop
+      // 5. Set the camera position further back to better view the model
+      camera.position.set(0, 2, 10);  // Move the camera farther away from the model
+
+      // 6. Animate the scene and add rotation to the model
       function animate() {
         requestAnimationFrame(animate);
+
+        // Enable rotation on the model if you want continuous spinning
+        if (scene.children[2]) {  // Assuming the model is the 3rd child in the scene
+          scene.children[2].rotation.y += 0.01;  // Rotate the model
+        }
+
+        controls.update();  // Update the OrbitControls
         renderer.render(scene, camera);
       }
       animate();
+
+      // Handle window resizing
+      window.addEventListener('resize', function() {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      });
     </script>
   </body>
 </html>
