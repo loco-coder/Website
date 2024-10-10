@@ -37,20 +37,19 @@
 
       // 3. Load the GLB Model using GLTFLoader
       const loader = new THREE.GLTFLoader();
-      loader.load(
-        'https://loco-coder.github.io/Website/House_001_GLB.glb', // Replace with your correct URL
-        function(gltf) {
-          console.log('Model loaded successfully!');
-          const model = gltf.scene;
-          scene.add(model);
-          model.position.set(0, -1, 0);  // Adjust position if needed
-          model.scale.set(1, 1, 1);  // Adjust scale if needed
-        },
-        undefined,
-        function(error) {
-          console.error('An error occurred while loading the model:', error);
-        }
-      );
+      loader.load('https://loco-coder.github.io/Website/House_001_GLB.glb',  // Correct URL to your GLB file
+  function(gltf) {
+    console.log('Model loaded successfully!');
+    const model = gltf.scene;
+    scene.add(model);
+    model.position.set(0, -1, 0);  // Adjust position if needed
+    model.scale.set(1, 1, 1);  // Adjust scale if needed
+  },
+  undefined,
+  function(error) {
+    console.error('An error occurred while loading the model:', error);
+  }
+);
 
       // 4. Set camera position
       camera.position.set(0, 1, 5); // Adjust to focus on model
